@@ -34,7 +34,6 @@ $(function () {
 
     });
 
-
     // 提交表单 收集提交表单数据，在发起注册ajax请求
     $('#RegPageForm').on('submit', function (e) {
         e.preventDefault();
@@ -64,7 +63,6 @@ $(function () {
         // 收集表单数据 
         let data = $(this).serialize();
         console.log(data);
-        return;
         // 发起ajax请求
         $.ajax({
             type: 'POST',
