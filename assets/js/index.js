@@ -2,6 +2,34 @@ $(function () {
     let layer = layui.layer;
 
     // 获取用户头像和昵称基本信息
+    getAvatarAdd();
+    // 退出功能
+    $("#colseBtn").click(function () {
+        layer.confirm(
+            "确定退出登录?",
+            { icon: 3, title: "提 示" },
+            function (index) {
+                // 该函数会在点击确认的时候执行
+                // 退出登录要做的事情，应该和登录的时候做的事情是相反的
+                // 1. 把存储在本地的token信息给删除掉 ==> localStorage.removeItem(key);
+                // 2. 页面跳转回到login.html 登录页面
+
+                // 1.
+                localStorage.removeItem("token");
+
+                // 2,
+                location.href = "login.html";
+
+                layer.close(index); // 关闭当前询问框
+            }
+        );
+    });
+});
+
+
+
+// 提交修改的时候  头像同时渲染到左侧的   把它定义为全局函数  用来在别的页面能够调用到
+function getAvatarAdd() {
     $.ajax({
         url: "/my/userinfo",
         /* // 设置请求头信息
@@ -13,10 +41,8 @@ $(function () {
             if (res.status !== 0) {
                 return layer.msg("获取用户信息失败！");
             }
-            // layer.msg("获取用户信息成功！");
-
-            // 需要处理头像和昵称
-
+            // layer.msg("获取用户信息成功！"); 
+            // 需要处理头像和昵称 
             // 1. 先处理名字 （优先展示昵称，其次在是用户名）
             let name = res.data.nickname || res.data.username;
             //   console.log(name, name[0].toUpperCase());
@@ -52,26 +78,4 @@ $(function () {
         //     }
         // },
     });
-
-    // 退出功能
-    $("#colseBtn").click(function () {
-        layer.confirm(
-            "确定退出登录?",
-            { icon: 3, title: "提 示" },
-            function (index) {
-                // 该函数会在点击确认的时候执行
-                // 退出登录要做的事情，应该和登录的时候做的事情是相反的
-                // 1. 把存储在本地的token信息给删除掉 ==> localStorage.removeItem(key);
-                // 2. 页面跳转回到login.html 登录页面
-
-                // 1.
-                localStorage.removeItem("token");
-
-                // 2,
-                location.href = "login.html";
-
-                layer.close(index); // 关闭当前询问框
-            }
-        );
-    });
-});
+}
